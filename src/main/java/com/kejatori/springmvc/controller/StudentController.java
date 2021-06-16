@@ -5,10 +5,7 @@ import com.kejatori.springmvc.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/student")
@@ -37,6 +34,24 @@ public class StudentController {
     @PostMapping
     public String createStudent(@ModelAttribute("student") Student student){
         studentService.createStudent(student);
+        return "redirect:/student";
+    }
+
+    @GetMapping(path = "/edit/{studentId}")
+    public String editStudentForm(@PathVariable("studentId") Long studentId, Model model){
+        model.addAttribute("student", studentService.getStudentById(studentId));
+        return "edit_student";
+    }
+
+    @PostMapping(path = "/{studentId}")
+    public String updateStudent(@PathVariable("studentId") Long studentId, @ModelAttribute("student") Student student, Model model){
+        studentService.updateStudent(studentId, student);
+        return "redirect:/student";
+    }
+
+    @GetMapping(path = "/delete/{studentId}")
+    public String deleteStudent(@PathVariable("studentId") Long studentId){
+        studentService.deleteStudent(studentId);
         return "redirect:/student";
     }
 }
