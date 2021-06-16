@@ -44,7 +44,7 @@ public class StudentController {
     }
 
     @PostMapping(path = "/{studentId}")
-    public String updateStudent(@PathVariable("studentId") Long studentId, @ModelAttribute("student") Student student, Model model){
+    public String updateStudent(@PathVariable("studentId") Long studentId, @ModelAttribute("student") Student student){
         studentService.updateStudent(studentId, student);
         return "redirect:/student";
     }
